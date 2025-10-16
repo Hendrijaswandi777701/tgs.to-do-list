@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To-Do List</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        background: #1f3c88;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      .todo-container {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        width: 400px;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      }
+      .todo-container h2 {
+        margin-bottom: 20px;
+        color: #1f3c88;
+      }
+      /* Input dan Tombol Tambah */
+      .input-group {
+        display: flex;
+        margin-bottom: 15px;
+      }
+      input[type="text"] {
+        flex-grow: 1;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+      }
+      /* Gaya untuk Input Pencarian */
+      #search-task {
+        margin-bottom: 20px;
+        border-radius: 8px;
+        width: 100%;
+      }
+
+      /* Gaya khusus untuk Input Tugas Baru (new-task) */
+      #new-task {
+        font-size: 18px;  /* Ukuran font lebih besar untuk mudah dibaca */
+        height: 50px;     /* Tinggi input lebih besar */
+        padding: 15px;    /* Padding lebih untuk ruang ekstra */
+      }
+
+      .add-btn {
+        background-color: #1f7cff;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        margin-left: 10px;
+        transition: background-color 0.3s; /* Efek transisi hover */
+      }
+      .add-btn:hover {
+        background-color: #0056b3;
+      }
+
+      /* Daftar Tugas (UL/LI) */
+      .task-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        text-align: left;
+      }
+      .task-list li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+        transition: background-color 0.2s; /* Efek hover pada li */
+      }
+      .task-list li:hover {
+        background-color: #f0f0f0; /* Warna hover untuk item */
+      }
+      .task-list li:last-child {
+        border-bottom: none;
+      }
+
+      /* Teks Tugas */
+      .task-text {
+        flex-grow: 1;
+        margin-right: 10px;
+        word-break: break-word;
+      }
+
+      /* Menandai Tugas Selesai (strike-through) */
+      .task-text.completed {
+        text-decoration: line-through;
+        color: #777;
+      }
+
+      /* Tombol Aksi */
+      .task-actions button {
+        margin-left: 5px;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 0.8em;
+        font-weight: bold;
+        transition: background-color 0.3s; /* Efek transisi hover */
+      }
+      .complete-btn {
+        background-color: #28a745;
+        color: white;
+      }
+      .delete-btn {
+        background-color: #dc3545;
+        color: white;
+      }
+      .complete-btn:hover {
+        background-color: #1e7e34;
+      }
+      .delete-btn:hover {
+        background-color: #c82333;
+      }
+      .empty {
+        color: #777;
+        margin-top: 10px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="todo-container">
+      <h2>To-Do List 📝</h2>
+
+      <div class="input-group">
+        <input
+          type="text"
+          id="new-task"
+          placeholder="Tambahkan tugas baru..."
+          aria-label="Input tugas baru"
+        />
+        <button class="add-btn" onclick="addTask()">Tambah</button>
+      </div>
+
+      <input
+        type="text"
+        id="search-task"
+        placeholder="🔍 Cari tugas..."
+        onkeyup="renderTasks()"
+        aria-label="Input pencarian tugas"
+      />
+
+      <ul class="task-list" id="task-list"></ul>
+
+      <p class="empty" id="empty-msg">Belum ada tugas</p>
+    </div>
+
+    <script>
+      // Ambil elemen-elemen yang diperlukan
+      const taskList = document.getElementById("task-list");
+      const emptyMsg = document.getElementById("empty-msg");
+      const taskInput = document.getElementById("new-task");
+      const searchInput = document.getElementById("search-task");
+
+      // Array untuk menyimpan data tugas
+      let tasks = [];
+
+      // Fungsi untuk menyimpan data ke LocalStorage
+      function saveTasks() {
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+      }
+
+      // Fungsi untuk memuat data dari LocalStorage
+      function loadTasks() {
+        const storedTasks = localStorage.getItem("tasks");
+        if (storedTasks) {
+          tasks = JSON.parse(storedTasks);
+        }
+        renderTasks();  // Render tugas setelah memuat
+      }
+
+      // Fungsi untuk memperbarui pesan "Belum ada tugas"
+      function updateEmptyMsg(filteredTasks) {
+        if (filteredTasks.length === 0 && tasks.length > 0) {
+          emptyMsg.textContent = "Tidak ada tugas yang cocok dengan pencarian.";
+          emptyMsg.style.display = "block";
+        } else if (tasks.length === 0) {
+          emptyMsg.textContent = "Belum ada tugas";
+          emptyMsg.style.display = "block";
+        } else {
+          emptyMsg.style.display = "none";
+        }
+      }
+
+      // Fungsi untuk merender daftar tugas ke DOM (dengan filter pencarian)
+      function renderTasks() {
+        taskList.innerHTML = "";  // Bersihkan daftar yang ada
+
+        const searchTerm = searchInput.value.toLowerCase();  // Ambil nilai pencarian
+        const filteredTasks = tasks.filter((taskObj) =>
+          taskObj.text.toLowerCase().includes(searchTerm)
+        );
+
+        updateEmptyMsg(filteredTasks);  // Perbarui pesan kosong berdasarkan filteredTasks
+
+        filteredTasks.forEach((taskObj, filteredIndex) => {
+          const originalIndex = tasks.findIndex((t) => t === taskObj);  // Dapatkan index asli
+
+          const listItem = document.createElement("li");
+
+          const taskText = document.createElement("span");
+          taskText.className = taskObj.completed ? "task-text completed" : "task-text";
+          taskText.textContent = taskObj.text;  // Gunakan textContent untuk keamanan
+          taskText.setAttribute("aria-label", `Tugas: ${taskObj.text}`);
+
+          const actionsContainer = document.createElement("div");
+          actionsContainer.className = "task-actions";
+
+          const completeBtn = document.createElement("button");
+          completeBtn.className = "complete-btn";
+          completeBtn.textContent = taskObj.completed ? "Batal" : "Selesai";
+          completeBtn.setAttribute("aria-label", "Tandai tugas selesai");
+          completeBtn.onclick = () => toggleComplete(originalIndex);
+
+          const deleteBtn = document.createElement("button");
+          deleteBtn.className = "delete-btn";
+          deleteBtn.textContent = "Hapus";
+          deleteBtn.setAttribute("aria-label", "Hapus tugas");
+          deleteBtn.onclick = () => deleteTask(originalIndex);
+
+          actionsContainer.appendChild(completeBtn);
+          actionsContainer.appendChild(deleteBtn);
+          listItem.appendChild(taskText);
+          listItem.appendChild(actionsContainer);
+
+          taskList.appendChild(listItem);
+        });
+      }
+
+      // Fungsi untuk menambah tugas baru
+      function addTask() {
+        const taskText = taskInput.value.trim();
+        if (taskText === "") {
+          alert("Tugas tidak boleh kosong!");
+          return;
+        }
+
+        const newTask = { text: taskText, completed: false };
+        tasks.push(newTask);
+        taskInput.value = "";  // Kosongkan input
+        renderTasks();  // Render ulang
+        saveTasks();  // Simpan ke localStorage
+        alert("Tugas berhasil ditambahkan!");  // Pesan sukses
+      }
+
+      // Event listener untuk tombol Enter pada input tugas
+      taskInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          addTask();
+        }
+      });
+
+      // Event listener untuk tombol Enter pada input pencarian
+      searchInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          renderTasks();  // Trigger pencarian ulang
+        }
+      });
+
+      // Fungsi untuk menandai tugas selesai
+      function toggleComplete(index) {
+        tasks[index].completed = !tasks[index].completed;
+        renderTasks();
+        saveTasks();
+      }
+
+      // Fungsi untuk menghapus tugas
+      function deleteTask(index) {
+        if (confirm("Apakah Anda yakin ingin menghapus tugas ini?")) {
+          tasks.splice(index, 1);
+          renderTasks();
+          saveTasks();
+        }
+      }
+
+      // Muat tugas saat halaman dimuat
+      window.onload = loadTasks;
+    </script>
+  </body>
+</html>
