@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Destinasi Wisata Lombok Tengah</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <style>
+    body {
+      scroll-behavior: smooth;
+      font-family: 'Poppins', sans-serif;
+      background-color: #f8f9fa;
+    }
+
+    /* ==== Kartu Destinasi ==== */
+    .custom-card {
+      border: none;
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background-color: #fff;
+      text-align: center; /* Agar isi di tengah */
+    }
+
+    .custom-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Bungkus gambar agar semua proporsional */
+    .image-wrapper {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+    }
+
+    .image-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .custom-card:hover .image-wrapper img {
+      transform: scale(1.08);
+    }
+
+    /* ==== Header ==== */
+    header {
+      margin-top: 100px;
+    }
+
+    header h1 {
+      font-weight: 700;
+      color: #007bff;
+    }
+
+    header p {
+      color: #6c757d;
+    }
+
+    /* ==== Footer ==== */
+    footer {
+      font-size: 0.9rem;
+      background-color: #007bff;
+      color: white;
+    }
+
+    /* ==== Card Title & Text ==== */
+    .card-title {
+      font-weight: 600;
+      color: #007bff;
+      margin-top: 10px;
+    }
+
+    .card-text {
+      color: #6c757d;
+      font-size: 0.95rem;
+      margin-bottom: 15px;
+    }
+
+    /* ==== Responsif ==== */
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold text-primary" href="index.html">Wisata Lombok Tengah</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a href="index.html" class="nav-link">Beranda</a></li>
+          <li class="nav-item"><a href="destinasi.html" class="nav-link active text-primary fw-semibold">Destinasi</a></li>
+          <li class="nav-item"><a href="galeri.html" class="nav-link">Galeri</a></li>
+          <li class="nav-item"><a href="kontak.html" class="nav-link">Kontak</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <header class="text-center pt-5 mt-5 mb-5">
+    <div class="container">
+      <h1 class="fw-bold mb-2">Destinasi Wisata Lombok Tengah</h1>
+      <p>Temukan keindahan alam, budaya, dan pesona wisata yang memukau di Lombok Tengah.</p>
+    </div>
+  </header>
+
+  <!-- Destinasi Section -->
+  <section class="container mb-5">
+    <div class="row g-4">
+
+      <!-- Card 1 -->
+      <div class="col-md-4">
+        <div class="card h-100 custom-card">
+          <div class="image-wrapper">
+            <img src="assets/img/bukit merese2.jpg" alt="Bukit Merese">
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Bukit Merese</h5>
+            <p class="card-text">Nikmati panorama sunset menakjubkan di Bukit Merese, salah satu tempat terbaik di Lombok Tengah.</p>
+            <a href="detail.html" class="btn btn-primary w-100">Lihat Detail</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="col-md-4">
+        <div class="card h-100 custom-card">
+          <div class="image-wrapper">
+            <img src="assets/img/sade4.jpeg" alt="Desa Sade">
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Desa Sade</h5>
+            <p class="card-text">Desa adat suku Sasak yang mempertahankan tradisi budaya Lombok hingga kini.</p>
+            <a href="detail.html" class="btn btn-primary w-100">Lihat Detail</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="col-md-4">
+        <div class="card h-100 custom-card">
+          <div class="image-wrapper">
+            <img src="assets/img/pantai seger1.jpg" alt="Pantai Seger">
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Pantai Seger</h5>
+            <p class="card-text">Pantai berpasir halus dengan pemandangan bukit hijau yang menenangkan.</p>
+            <a href="detail.html" class="btn btn-primary w-100">Lihat Detail</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="col-md-4">
+        <div class="card h-100 custom-card">
+          <div class="image-wrapper">
+            <img src="assets/img/pantai an2.jpg" alt="Pantai Tanjung Aan">
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Pantai Tanjung Aan</h5>
+            <p class="card-text">Pantai berpasir putih seperti merica dengan ombak lembut dan panorama tropis.</p>
+            <a href="detail.html" class="btn btn-primary w-100">Lihat Detail</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="col-md-4">
+        <div class="card h-100 custom-card">
+          <div class="image-wrapper">
+            <img src="assets/img/benang kelambu1.jpg" alt="Air Terjun Benang Kelambu">
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Air Terjun Benang Kelambu</h5>
+            <p class="card-text">Air terjun indah menyerupai tirai alami di kawasan pegunungan hijau.</p>
+            <a href="detail.html" class="btn btn-primary w-100">Lihat Detail</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="col-md-4">
+        <div class="card h-100 custom-card">
+          <div class="image-wrapper">
+            <img src="assets/img/selong sanset2.jpeg" alt="Pantai Selong Belanak">
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Pantai Selong Belanak</h5>
+            <p class="card-text">Pantai dengan hamparan pasir putih dan ombak tenang, cocok untuk berselancar.</p>
+            <a href="detail.html" class="btn btn-primary w-100">Lihat Detail</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-center py-4 mt-5">
+    <p class="mb-0">© 2025 Wisata Lombok Tengah | Dibuat oleh Hendri</p>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

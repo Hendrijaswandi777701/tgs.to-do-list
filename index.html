@@ -1,296 +1,119 @@
 <!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>To-Do List</title>
-    <style>
-      body {
-        font-family: sans-serif;
-        background: #1f3c88;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-      }
-      .todo-container {
-        background: white;
-        padding: 30px;
-        border-radius: 15px;
-        width: 400px;
-        text-align: center;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      }
-      .todo-container h2 {
-        margin-bottom: 20px;
-        color: #1f3c88;
-      }
-      /* Input dan Tombol Tambah */
-      .input-group {
-        display: flex;
-        margin-bottom: 15px;
-      }
-      input[type="text"] {
-        flex-grow: 1;
-        padding: 10px;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-        box-sizing: border-box;
-      }
-      /* Gaya untuk Input Pencarian */
-      #search-task {
-        margin-bottom: 20px;
-        border-radius: 8px;
-        width: 100%;
-      }
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wisata Daerahku - Eksotisme Lombok Tengah</title>
 
-      /* Gaya khusus untuk Input Tugas Baru (new-task) */
-      #new-task {
-        font-size: 18px;  /* Ukuran font lebih besar untuk mudah dibaca */
-        height: 50px;     /* Tinggi input lebih besar */
-        padding: 15px;    /* Padding lebih untuk ruang ekstra */
-      }
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-      .add-btn {
-        background-color: #1f7cff;
-        color: white;
-        border: none;
-        padding: 10px 15px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: bold;
-        margin-left: 10px;
-        transition: background-color 0.3s; /* Efek transisi hover */
-      }
-      .add-btn:hover {
-        background-color: #0056b3;
-      }
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
 
-      /* Daftar Tugas (UL/LI) */
-      .task-list {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-        text-align: left;
-      }
-      .task-list li {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px 0;
-        border-bottom: 1px solid #eee;
-        transition: background-color 0.2s; /* Efek hover pada li */
-      }
-      .task-list li:hover {
-        background-color: #f0f0f0; /* Warna hover untuk item */
-      }
-      .task-list li:last-child {
-        border-bottom: none;
-      }
+<body class="bg-gray-50 text-gray-800">
 
-      /* Teks Tugas */
-      .task-text {
-        flex-grow: 1;
-        margin-right: 10px;
-        word-break: break-word;
-      }
+  <!-- HEADER / NAVBAR -->
+  <header class="bg-white shadow-md fixed w-full z-10 top-0">
+    <nav class="container mx-auto flex justify-between items-center py-3 px-4">
+      <h1 class="text-xl font-bold text-blue-600">Wisata Lombok Tengah</h1>
+      <ul class="flex space-x-6 text-gray-700">
+        <li><a href="index.html" class="hover:text-blue-500 font-semibold">Beranda</a></li>
+        <li><a href="destinasi.html" class="hover:text-blue-500">Destinasi</a></li>
+        <li><a href="galeri.html" class="hover:text-blue-500">Galeri</a></li>
+        <li><a href="kontak.html" class="hover:text-blue-500">Kontak</a></li>
+      </ul>
+    </nav>
+  </header>
 
-      /* Menandai Tugas Selesai (strike-through) */
-      .task-text.completed {
-        text-decoration: line-through;
-        color: #777;
-      }
+  <!-- HERO SECTION -->
+  <section class="relative h-screen flex items-center justify-center bg-cover bg-center" style="background-image: url('assets/img/bukit merese2.jpg');">
+    <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+    <div class="relative z-10 text-center text-white px-4">
+      <h2 class="text-4xl md:text-5xl font-bold mb-4">Eksotisme Alam & Budaya Lombok Tengah</h2>
+      <p class="text-lg md:text-xl mb-6">Temukan keindahan pantai, budaya Sasak, dan kuliner khas Lombok yang mempesona.</p>
+      <a href="destinasi.html" class="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg text-white font-semibold">Jelajahi Sekarang</a>
+    </div>
+  </section>
 
-      /* Tombol Aksi */
-      .task-actions button {
-        margin-left: 5px;
-        border: none;
-        padding: 5px 10px;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 0.8em;
-        font-weight: bold;
-        transition: background-color 0.3s; /* Efek transisi hover */
-      }
-      .complete-btn {
-        background-color: #28a745;
-        color: white;
-      }
-      .delete-btn {
-        background-color: #dc3545;
-        color: white;
-      }
-      .complete-btn:hover {
-        background-color: #1e7e34;
-      }
-      .delete-btn:hover {
-        background-color: #c82333;
-      }
-      .empty {
-        color: #777;
-        margin-top: 10px;
-        text-align: center;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="todo-container">
-      <h2>To-Do List 📝</h2>
+  <!-- RINGKASAN FITUR -->
+  <section class="py-16 container mx-auto text-center px-4">
+    <h3 class="text-3xl font-bold text-blue-600 mb-10">Jelajahi Keindahan Lombok Tengah</h3>
 
-      <div class="input-group">
-        <input
-          type="text"
-          id="new-task"
-          placeholder="Tambahkan tugas baru..."
-          aria-label="Input tugas baru"
-        />
-        <button class="add-btn" onclick="addTask()">Tambah</button>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+      <!-- Wisata Alam -->
+      <div class="bg-white shadow-lg rounded-xl p-6 hover:shadow-2xl transition">
+        <img src="assets/img/benang kelambu1.jpg" class="w-full h-48 object-cover rounded-lg mb-4" alt="Wisata Alam">
+        <h4 class="text-xl font-semibold mb-2 text-blue-600">Wisata Alam</h4>
+        <p class="text-gray-600">Pantai Selong Belanak, Benang Kelambu, dan Bukit Merese menawarkan pemandangan alami dan udara segar khas Lombok Tengah.</p>
       </div>
 
-      <input
-        type="text"
-        id="search-task"
-        placeholder="🔍 Cari tugas..."
-        onkeyup="renderTasks()"
-        aria-label="Input pencarian tugas"
-      />
+      <!-- Wisata Budaya -->
+      <div class="bg-white shadow-lg rounded-xl p-6 hover:shadow-2xl transition">
+        <img src="assets/img/sade1.jpg" class="w-full h-48 object-cover rounded-lg mb-4" alt="Wisata Budaya">
+        <h4 class="text-xl font-semibold mb-2 text-blue-600">Wisata Budaya</h4>
+        <p class="text-gray-600">Desa Adat Sade dan tradisi masyarakat Sasak memperkenalkan nilai-nilai budaya yang masih lestari hingga kini.</p>
+      </div>
 
-      <ul class="task-list" id="task-list"></ul>
+      <!-- Wisata Kuliner -->
+      <div class="bg-white shadow-lg rounded-xl p-6 hover:shadow-2xl transition">
+        <img src="assets/img/ayam2.jpg" class="w-full h-48 object-cover rounded-lg mb-4" alt="Wisata Kuliner">
+        <h4 class="text-xl font-semibold mb-2 text-blue-600">Wisata Kuliner</h4>
+        <p class="text-gray-600">Cicipi kelezatan Ayam Taliwang, Plecing Kangkung, dan sate Rembiga yang menjadi kebanggaan masyarakat Lombok.</p>
+      </div>
+    </div>
+  </section>
 
-      <p class="empty" id="empty-msg">Belum ada tugas</p>
+  <!-- DESTINASI POPULER -->
+  <section class="py-16 container mx-auto text-center px-4">
+    <h3 class="text-3xl font-bold text-blue-600 mb-10">Destinasi Populer</h3>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+        <img src="assets/img/mandalika1.jpg" alt="Pantai Kuta Mandalika" class="w-full h-56 object-cover">
+        <div class="p-5">
+          <h4 class="text-xl font-semibold mb-2">Pantai Kuta Mandalika</h4>
+          <p class="text-gray-600">Pasir putih seperti merica dan ombak yang menantang — surga bagi peselancar.</p>
+        </div>
+      </div>
+
+      <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+        <img src="assets/img/bukit merese1.jpg" alt="Bukit Merese" class="w-full h-56 object-cover">
+        <div class="p-5">
+          <h4 class="text-xl font-semibold mb-2">Bukit Merese</h4>
+          <p class="text-gray-600">Tempat terbaik menikmati sunrise dan sunset dengan panorama laut selatan Lombok.</p>
+        </div>
+      </div>
+
+      <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+        <img src="assets/img/sade3.jpeg" alt="Desa Adat Sade" class="w-full h-56 object-cover">
+        <div class="p-5">
+          <h4 class="text-xl font-semibold mb-2">Desa Adat Sade</h4>
+          <p class="text-gray-600">Rasakan pengalaman budaya Sasak dengan rumah tradisional beratap ilalang.</p>
+        </div>
+      </div>
     </div>
 
-    <script>
-      // Ambil elemen-elemen yang diperlukan
-      const taskList = document.getElementById("task-list");
-      const emptyMsg = document.getElementById("empty-msg");
-      const taskInput = document.getElementById("new-task");
-      const searchInput = document.getElementById("search-task");
+    <div class="mt-10">
+      <a href="destinasi.html" class="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg text-white font-semibold">Lihat Semua Destinasi</a>
+    </div>
+  </section>
 
-      // Array untuk menyimpan data tugas
-      let tasks = [];
+  <!-- FOOTER -->
+  <footer class="bg-blue-600 text-white text-center py-6 mt-10">
+    <p>© 2025 Wisata Lombok Tengah | Dibuat oleh Hendri</p>
+    <div class="flex justify-center space-x-4 mt-2">
+      <a href="#" class="hover:text-gray-300">Instagram</a>
+      <a href="#" class="hover:text-gray-300">YouTube</a>
+      <a href="#" class="hover:text-gray-300">Facebook</a>
+    </div>
+  </footer>
 
-      // Fungsi untuk menyimpan data ke LocalStorage
-      function saveTasks() {
-        localStorage.setItem("tasks", JSON.stringify(tasks));
-      }
-
-      // Fungsi untuk memuat data dari LocalStorage
-      function loadTasks() {
-        const storedTasks = localStorage.getItem("tasks");
-        if (storedTasks) {
-          tasks = JSON.parse(storedTasks);
-        }
-        renderTasks();  // Render tugas setelah memuat
-      }
-
-      // Fungsi untuk memperbarui pesan "Belum ada tugas"
-      function updateEmptyMsg(filteredTasks) {
-        if (filteredTasks.length === 0 && tasks.length > 0) {
-          emptyMsg.textContent = "Tidak ada tugas yang cocok dengan pencarian.";
-          emptyMsg.style.display = "block";
-        } else if (tasks.length === 0) {
-          emptyMsg.textContent = "Belum ada tugas";
-          emptyMsg.style.display = "block";
-        } else {
-          emptyMsg.style.display = "none";
-        }
-      }
-
-      // Fungsi untuk merender daftar tugas ke DOM (dengan filter pencarian)
-      function renderTasks() {
-        taskList.innerHTML = "";  // Bersihkan daftar yang ada
-
-        const searchTerm = searchInput.value.toLowerCase();  // Ambil nilai pencarian
-        const filteredTasks = tasks.filter((taskObj) =>
-          taskObj.text.toLowerCase().includes(searchTerm)
-        );
-
-        updateEmptyMsg(filteredTasks);  // Perbarui pesan kosong berdasarkan filteredTasks
-
-        filteredTasks.forEach((taskObj, filteredIndex) => {
-          const originalIndex = tasks.findIndex((t) => t === taskObj);  // Dapatkan index asli
-
-          const listItem = document.createElement("li");
-
-          const taskText = document.createElement("span");
-          taskText.className = taskObj.completed ? "task-text completed" : "task-text";
-          taskText.textContent = taskObj.text;  // Gunakan textContent untuk keamanan
-          taskText.setAttribute("aria-label", `Tugas: ${taskObj.text}`);
-
-          const actionsContainer = document.createElement("div");
-          actionsContainer.className = "task-actions";
-
-          const completeBtn = document.createElement("button");
-          completeBtn.className = "complete-btn";
-          completeBtn.textContent = taskObj.completed ? "Batal" : "Selesai";
-          completeBtn.setAttribute("aria-label", "Tandai tugas selesai");
-          completeBtn.onclick = () => toggleComplete(originalIndex);
-
-          const deleteBtn = document.createElement("button");
-          deleteBtn.className = "delete-btn";
-          deleteBtn.textContent = "Hapus";
-          deleteBtn.setAttribute("aria-label", "Hapus tugas");
-          deleteBtn.onclick = () => deleteTask(originalIndex);
-
-          actionsContainer.appendChild(completeBtn);
-          actionsContainer.appendChild(deleteBtn);
-          listItem.appendChild(taskText);
-          listItem.appendChild(actionsContainer);
-
-          taskList.appendChild(listItem);
-        });
-      }
-
-      // Fungsi untuk menambah tugas baru
-      function addTask() {
-        const taskText = taskInput.value.trim();
-        if (taskText === "") {
-          alert("Tugas tidak boleh kosong!");
-          return;
-        }
-
-        const newTask = { text: taskText, completed: false };
-        tasks.push(newTask);
-        taskInput.value = "";  // Kosongkan input
-        renderTasks();  // Render ulang
-        saveTasks();  // Simpan ke localStorage
-        alert("Tugas berhasil ditambahkan!");  // Pesan sukses
-      }
-
-      // Event listener untuk tombol Enter pada input tugas
-      taskInput.addEventListener("keypress", (e) => {
-        if (e.key === "Enter") {
-          addTask();
-        }
-      });
-
-      // Event listener untuk tombol Enter pada input pencarian
-      searchInput.addEventListener("keypress", (e) => {
-        if (e.key === "Enter") {
-          renderTasks();  // Trigger pencarian ulang
-        }
-      });
-
-      // Fungsi untuk menandai tugas selesai
-      function toggleComplete(index) {
-        tasks[index].completed = !tasks[index].completed;
-        renderTasks();
-        saveTasks();
-      }
-
-      // Fungsi untuk menghapus tugas
-      function deleteTask(index) {
-        if (confirm("Apakah Anda yakin ingin menghapus tugas ini?")) {
-          tasks.splice(index, 1);
-          renderTasks();
-          saveTasks();
-        }
-      }
-
-      // Muat tugas saat halaman dimuat
-      window.onload = loadTasks;
-    </script>
-  </body>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
